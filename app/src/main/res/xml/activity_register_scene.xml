@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1028"
+        motion:autoTransition="animateToEnd">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnSwipe motion:maxVelocity="1.03"
+            motion:maxAcceleration="4.78" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/taskbarLogo"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="80dp" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/registerEmail"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="500dp"
+            android:id="@+id/registerPassword" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/registerName"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="500dp"
+            android:id="@+id/registerEmail" />
+        <Constraint
+            android:id="@+id/registerName"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="500dp"
+            motion:layout_constraintBottom_toTopOf="@id/registerEmail"
+            motion:layout_constraintTop_toBottomOf="@id/registerHead" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toTopOf="@id/registerEmail"
+            motion:layout_constraintTop_toBottomOf="@id/taskbarLogo"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/registerHead"
+            android:layout_marginTop="25dp" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/taskbarLogo"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="80dp" />
+        <Constraint
+            android:id="@+id/registerHead"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toTopOf="@id/registerEmail"
+            motion:layout_constraintTop_toBottomOf="@id/taskbarLogo"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp" />
+        <Constraint
+            android:id="@+id/registerName"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="25dp"
+            motion:layout_constraintBottom_toTopOf="@id/registerEmail"
+            motion:layout_constraintTop_toBottomOf="@id/registerHead"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp" />
+        <Constraint
+            android:id="@+id/registerEmail"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/registerName"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/registerEmail"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="25dp"
+            android:id="@+id/registerPassword"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp" />
+    </ConstraintSet>
+</MotionScene>

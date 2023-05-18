@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StoryAppDicoding</string>
+    <string name="email">email</string>
+    <string name="password">sandi</string>
+    <string name="error_password">Kata sandi minimal 8 karakter</string>
+    <string name="error_password_empty">Kata sandi tidak boleh kosong</string>
+    <string name="error_email">Email harus sesuai dengan pola</string>
+    <string name="error_email_empty">Email tidak boleh kosong</string>
+    <string name="registerHead">Registrasi :</string>
+    <string name="dont_have_account">Tidak memiliki akun?</string>
+    <string name="error_empty_name">Nama harus terisi</string>
+    <string name="name">nama</string>
+    <string name="add_button_text">Tambahkan Cerita</string>
+    <string name="camera_button_text">Kamera</string>
+    <string name="add_story_description_hint">Isi deskripsi cerita</string>
+    <string name="story_iv_desc">Foto</string>
+    <string name="gallery_button_text">GALERI</string>
+    <string name="error_add_story">Isi yang kosong</string>
+    <string name="error_file_empty">Berkas tidak tertaut</string>
+    <string name="button_available">Masuk</string>
+    <string name="button_not_available">Isi dahulu</string>
+</resources>
