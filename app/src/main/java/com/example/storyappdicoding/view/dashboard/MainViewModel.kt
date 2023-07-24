@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.storyappdicoding.model.data.remote.ApiConfig
 import com.example.storyappdicoding.model.data.repository.AuthRepository
 import com.example.storyappdicoding.model.data.repository.StoryRepository
@@ -31,13 +33,8 @@ class MainViewModel(private val repository: StoryRepository, private val auth: A
         const val CONNECTED = "Story Showed Up"
     }
 
-    fun getAllStories(
-        page: Int?,
-        size: Int?,
-        location: Int = 0,
-        authorization: String
-    ): Flow<Result<StoryResponse>> {
-        return repository.getAllStories(page, size, location, authorization)
+    fun getAllStoriesPaging(authorization: String): LiveData<PagingData<ListStoryItem>> {
+        return repository.getAllStoriesPaging(authorization).cachedIn(viewModelScope)
     }
 
     suspend fun getToken(): Flow<String?> {

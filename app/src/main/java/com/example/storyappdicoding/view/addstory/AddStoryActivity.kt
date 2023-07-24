@@ -5,10 +5,13 @@ import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -25,6 +28,9 @@ import com.example.storyappdicoding.view.helper.reduceFileImage
 import com.example.storyappdicoding.view.helper.rotateFile
 import com.example.storyappdicoding.view.helper.uriToFile
 import com.example.storyappdicoding.view.login.LoginViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -39,6 +45,8 @@ class AddStoryActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(application)
     }
     private var getFile: File? = null
+    private var getLocation: LatLng? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     companion object {
         const val CAMERA_X_RESULT = 200
@@ -51,8 +59,18 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         binding.buttonCamera.setOnClickListener { startCameraX() }
         binding.buttonGallery.setOnClickListener { startGallery() }
+        binding.switchLocation.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked) {
+                getMyLocation()
+            } else {
+                getLocation = null
+            }
+
+        }
 
         binding.buttonAdd.setOnClickListener {
             if (getFile != null) {
@@ -206,5 +224,33 @@ class AddStoryActivity : AppCompatActivity() {
     }
 
 
+    // request location
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                getMyLocation()
+            }
+        }
+
+    private fun getMyLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    getLocation = LatLng(location.latitude, location.longitude)
+                } else {
+                    Log.d("Error Location", "Location is null: $location")
+                    showToast("Location not found")
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
 
 }

@@ -11,6 +11,7 @@ import com.example.storyappdicoding.view.addstory.AddStoryViewModel
 import com.example.storyappdicoding.view.dashboard.MainViewModel
 import com.example.storyappdicoding.view.detail.DetailViewModel
 import com.example.storyappdicoding.view.login.LoginViewModel
+import com.example.storyappdicoding.view.maps.MapsViewModel
 import com.example.storyappdicoding.view.register.RegisterViewModel
 import com.example.storyappdicoding.view.splash.SplashViewModel
 
@@ -34,6 +35,8 @@ class ViewModelFactory private constructor(
             return AddStoryViewModel(storyRepository, authRepository) as T
         } else if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
             return SplashViewModel(authRepository) as T
+        } else if (modelClass.isAssignableFrom(MapsViewModel::class.java)) {
+            return MapsViewModel(storyRepository, authRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

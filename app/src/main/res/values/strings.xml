@@ -19,4 +19,6 @@
     <string name="error_file_empty">File is not attached</string>
     <string name="button_available">Login</string>
     <string name="button_not_available">Fill First</string>
+    <string name="retry">Retry</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

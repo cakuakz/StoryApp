@@ -22,7 +22,7 @@
 
         <ImageView
             android:id="@+id/taskbarLogo"
-            android:layout_width="150dp"
+            android:layout_width="130dp"
             android:layout_height="70dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,8 +31,9 @@
 
         <ImageButton
             android:id="@+id/logout_logo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/bg_taskbar"
             app:layout_constraintEnd_toStartOf="@id/taskbarLogo"
@@ -41,10 +42,22 @@
             app:srcCompat="@drawable/baseline_logout_24" />
 
         <ImageButton
+            android:id="@+id/mapsLogo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/baseline_map_24"
+            android:background="@drawable/bg_taskbar"
+            app:layout_constraintStart_toEndOf="@id/taskbarLogo"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageButton
             android:id="@+id/localization_logo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="50dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_taskbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/taskbarLogo"

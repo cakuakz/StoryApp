@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyappdicoding.databinding.ActivityMainBinding
 import com.example.storyappdicoding.model.data.response.ListStoryItem
+import com.example.storyappdicoding.view.adapter.LoadingStateAdapter
 import com.example.storyappdicoding.view.adapter.StoryAdapter
 import com.example.storyappdicoding.view.addstory.AddStoryActivity
 import com.example.storyappdicoding.view.camera.CameraActivity
 import com.example.storyappdicoding.view.detail.DetailActivity
 import com.example.storyappdicoding.view.helper.ViewModelFactory
 import com.example.storyappdicoding.view.login.LoginActivity
+import com.example.storyappdicoding.view.maps.MapsActivity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -61,6 +63,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
 
+        binding.mapsLogo.setOnClickListener {
+            val mapsIntent = Intent(this@MainActivity, MapsActivity::class.java)
+            startActivity(mapsIntent)
+        }
+
         val layoutManager = LinearLayoutManager(this)
         binding.rvStory.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
@@ -71,20 +78,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             mainViewModel.getToken().collect { tokenUser ->
                 if (tokenUser !== null) {
-                    val token = "Bearer $tokenUser"
-                    mainViewModel.getAllStories(
-                        null,
-                        null,
-                        0,
-                        token
-                    ).collectLatest { result ->
-                        if (result.isSuccess) {
-                            val storyResponse = result.getOrThrow()
-                            setListStory(storyResponse.listStory)
-                        } else {
-                            showToast("Home Failed: ${result.exceptionOrNull()?.message}")
-                        }
-                    }
+                    setListStoryNew(tokenUser)
                 }
             }
         }
@@ -95,7 +89,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListStory(listStoryItem: List<ListStoryItem>?) {
-        val adapter = StoryAdapter(listStoryItem ?: emptyList())
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvStory.layoutManager = layoutManager
+
+        val adapter = StoryAdapter()
         binding.rvStory.adapter = adapter
 
         adapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
@@ -106,6 +103,33 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun setListStoryNew(tokenUser: String) {
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvStory.layoutManager = layoutManager
+
+        val adapter = StoryAdapter()
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+
+        mainViewModel.getAllStoriesPaging(
+            "Bearer $tokenUser"
+        ).observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
+
+        adapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
+            override fun onItemClicked(storyItem: ListStoryItem) {
+                val detailIntent = Intent(this@MainActivity, DetailActivity::class.java)
+                detailIntent.putExtra(DetailActivity.EXTRA_STORY, storyItem.id)
+                startActivity(detailIntent)
+            }
+        })
+    }
+
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE

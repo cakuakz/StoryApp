@@ -1,8 +1,14 @@
 package com.example.storyappdicoding.model.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.example.storyappdicoding.model.data.local.UserPreferences
 import com.example.storyappdicoding.model.data.remote.ApiService
 import com.example.storyappdicoding.model.data.response.AddNewStoryResponse
+import com.example.storyappdicoding.model.data.response.ListStoryItem
 import com.example.storyappdicoding.model.data.response.StoryDetailResponse
 import com.example.storyappdicoding.model.data.response.StoryResponse
 import com.example.storyappdicoding.model.utils.AppExecutors
@@ -21,6 +27,19 @@ class StoryRepository(
 ) {
     private val diskDispatcher = appExecutors.diskIO.asCoroutineDispatcher()
     private val networkDispatcher = appExecutors.networkIO.asCoroutineDispatcher()
+
+    fun getAllStoriesPaging(
+        authorization: String
+    ): LiveData<PagingData<ListStoryItem>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10
+            ),
+            pagingSourceFactory = {
+                StoryPagingSource(apiService, authorization)
+            }
+        ).liveData
+    }
 
     fun getAllStories(
         page: Int?,
